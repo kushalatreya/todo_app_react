@@ -7,12 +7,24 @@ export default class ShowTodo extends Component {
     return (
       <div>
             {this.props.dataToMap.map((element,index)=>{
-                return <div className= 'each-todo-container'>
-                    <p>{element.id}</p>                    
-                    <p>{element.todo}</p> 
+                return <div className="each-todo-container">
+                    <p>{element.id}</p>
+                    <p>{element.todo}</p>
                     <button>Edit</button>
-                    <button>View</button>
-                    <button onClick={() => this.props.forDelete(index)}>Delete</button>                   
+                    <button
+                      onClick={() =>
+                        this.props.idSelector(element.id)
+                      }
+                    >
+                      View
+                    </button>
+                    <button
+                      onClick={() =>
+                        this.props.forDelete(element.id)
+                      }
+                    >
+                      Delete
+                    </button>
                   </div>;
             })
             }
