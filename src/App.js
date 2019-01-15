@@ -3,7 +3,7 @@ import "./App.css";
 import AddTodo from "./components/AddTodo";
 import ShowTodo from "./components/ShowTodo";
 /* import EditTodo from './components/EditTodo' */
-import ViewTodo from './components/ViewTodo'
+import ViewTodo from "./components/ViewTodo";
 class App extends Component {
   state = {
     todoList: [
@@ -27,15 +27,20 @@ class App extends Component {
     selectedNumber: null
   };
 
+  addTodo = obj => {
+    const currentTodos = this.state.todoList.slice();
+    currentTodos.push(obj);
+    this.setState({ todoList: currentTodos });
+  };
+
   deleteHandler = id => {
     const currentId = this.state.todoList.slice();
     console.log(id);
     /* const updatedId = currentId.splice(id,1); This only holds one object and checks in the state and update, deleting all other except the item which is holding in the memory*/
     /* this will slice one item starting from the id */
-    /*    const updatedTodos =  currentId.filter((element)=>element.id !== id[]);
-     */
+    /*    const updatedTodos =  currentId.filter((element)=>element.id !== id[]);*/
 
-    const todoList = currentId.filter(item => item.id != id);
+    const todoList = currentId.filter(item => item.id !== id);
     console.log(todoList);
 
     this.setState({
@@ -43,19 +48,21 @@ class App extends Component {
     }); /* this will check the last todoList and updates with currentId */
   };
 
-  selectedNumberHandler = (id) => {
-    this.setState({ selectedNumber: id });    
-  }
+  selectedNumberHandler = id => {
+    this.setState({ selectedNumber: id });
+  };
 
   viewHandler = id => {
-    const data = this.state.todoList.filter(item => ( item.id === this.state.selectedNumber ))
+    const data = this.state.todoList.filter(
+      item => item.id === this.state.selectedNumber
+    );
     return data;
   };
 
   render() {
     return (
       <div>
-        <AddTodo />
+        <AddTodo dataForNewTodo={this.state.todoList} addTodo={this.addTodo}/>
         <ShowTodo
           dataToMap={this.state.todoList}
           forDelete={this.deleteHandler}
